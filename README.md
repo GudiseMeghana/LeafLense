@@ -1,7 +1,5 @@
 # Leaf-Lense: Vegetable & Fruit Classifier API & Web App
 
-![Leaf-Lense Logo](https://cdn-icons-png.flaticon.com/512/2909/2909765.png)
-
 A professional web platform for identifying fruits and vegetables using AI, and managing multilingual metadata and barcodes. Built with FastAPI, PostgreSQL, and React.
 
 ---
