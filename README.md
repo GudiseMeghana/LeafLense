@@ -127,6 +127,5 @@ See `.env.example` for required variables for PostgreSQL connection.
 ---
 
 ## About
-Project by [Meghana Gudise](https://github.com/GudiseMeghana/LeafLense)
 
 MIT License

@@ -10,7 +10,7 @@ const Footer = () => (
     fontSize: 16,
   }}>
     <div>
-      &copy; {new Date().getFullYear()} Meghana Gudise &mdash; <a href="https://github.com/GudiseMeghana/LeafLense" style={{ color: '#1abc9c' }}>GitHub</a>
+      &copy; {new Date().getFullYear()} Leaf-Lense &mdash; <a href="https://github.com/GudiseMeghana/LeafLense" style={{ color: '#1abc9c' }}>GitHub</a>
     </div>
     <div style={{ fontSize: 13, color: '#aaa', marginTop: 4 }}>
       Leaf-Lense &middot; AI-powered produce identification and management

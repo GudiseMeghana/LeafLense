@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { Card, CardContent, Typography, Button, TextField, Box } from '@mui/material';
-import { DataGrid } from '@mui/x-data-grid';
 import axios from 'axios';
 import { toast } from 'react-toastify';
+import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 
 const API = 'http://127.0.0.1:8000';
 
@@ -45,36 +45,39 @@ export default function Barcodes() {
   };
 
   return (
-    <Card sx={{ bgcolor: 'background.paper', color: '#fff', mb: 3, boxShadow: 6, maxWidth: 600, mx: 'auto', mt: 5 }}>
+    <Card sx={{ bgcolor: 'background.paper', color: '#fff', mb: 3, boxShadow: 8, maxWidth: 700, mx: 'auto', mt: 5 }}>
       <CardContent>
-        <Typography variant="h5" gutterBottom>Barcodes</Typography>
-        <Box component="form" onSubmit={handleAddBarcode} sx={{ display: 'flex', gap: 2, mb: 2 }}>
-          <TextField value={barcodeItemId} onChange={e => setBarcodeItemId(e.target.value)} label="Item ID" type="number" size="small" sx={{ flex: 1 }} required />
-          <TextField value={barcodeCode} onChange={e => setBarcodeCode(e.target.value)} label="Barcode" size="small" sx={{ flex: 2 }} required />
-          <Button type="submit" variant="contained" color="primary">Add Barcode</Button>
+        <Typography variant="h4" gutterBottom sx={{ color: 'primary.main', fontWeight: 700 }}>
+          Barcodes
+        </Typography>
+        <Box component="form" onSubmit={handleAddBarcode} sx={{ display: 'flex', gap: 2, mb: 2, flexWrap: 'wrap' }}>
+          <TextField value={barcodeItemId} onChange={e => setBarcodeItemId(e.target.value)} label="Item ID" type="number" size="small" sx={{ flex: 1, bgcolor: '#222', borderRadius: 1 }} required />
+          <TextField value={barcodeCode} onChange={e => setBarcodeCode(e.target.value)} label="Barcode" size="small" sx={{ flex: 2, bgcolor: '#222', borderRadius: 1 }} required />
+          <Button type="submit" variant="contained" color="primary" startIcon={<AddCircleOutlineIcon />}>Add Barcode</Button>
         </Box>
         <Button onClick={() => fetchBarcodes(barcodeItemId)} disabled={!barcodeItemId} variant="outlined" color="secondary" sx={{ mb: 2 }}>Show Barcodes for Item</Button>
-        <div style={{ height: 250, width: '100%', background: 'rgba(30,40,50,0.7)', borderRadius: 8 }}>
-          <DataGrid
-            rows={barcodes.map(b => ({ ...b, id: b.id }))}
-            columns={[
-              { field: 'id', headerName: 'ID', width: 80 },
-              { field: 'code', headerName: 'Barcode', width: 200 },
-              {
-                field: 'action',
-                headerName: 'Action',
-                width: 120,
-                renderCell: (params) => (
-                  <Button color="error" size="small" onClick={() => handleDeleteBarcode(params.row.id)}>Delete</Button>
-                ),
-              },
-            ]}
-            pageSize={5}
-            rowsPerPageOptions={[5]}
-            disableSelectionOnClick
-            sx={{ color: '#fff', border: 0 }}
-          />
-        </div>
+        <Box sx={{ maxHeight: 250, overflow: 'auto', borderRadius: 2, background: 'rgba(30,40,50,0.8)', boxShadow: '0 2px 16px 0 rgba(26,188,156,0.10)' }}>
+          <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+            <thead>
+              <tr style={{ background: '#222' }}>
+                <th style={{ padding: 8, border: '1px solid #333' }}>ID</th>
+                <th style={{ padding: 8, border: '1px solid #333' }}>Barcode</th>
+                <th style={{ padding: 8, border: '1px solid #333' }}>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {barcodes.map(b => (
+                <tr key={b.id}>
+                  <td style={{ padding: 8, border: '1px solid #333' }}>{b.id}</td>
+                  <td style={{ padding: 8, border: '1px solid #333' }}>{b.code}</td>
+                  <td style={{ padding: 8, border: '1px solid #333' }}>
+                    <Button color="error" size="small" variant="outlined" onClick={() => handleDeleteBarcode(b.id)} sx={{ borderRadius: 2 }}>Delete</Button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </Box>
       </CardContent>
     </Card>
   );

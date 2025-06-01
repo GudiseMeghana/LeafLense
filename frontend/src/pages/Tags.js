@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
-import { Card, CardContent, Typography, Button, TextField, Box, MenuItem } from '@mui/material';
+import { Card, CardContent, Typography, Button, TextField, Box, MenuItem, Stack } from '@mui/material';
 import axios from 'axios';
 import { toast } from 'react-toastify';
+import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
+import CameraAltIcon from '@mui/icons-material/CameraAlt';
 
 const API = 'http://127.0.0.1:8000';
 
@@ -55,22 +57,24 @@ export default function Tags() {
   };
 
   return (
-    <Card sx={{ bgcolor: 'background.paper', color: '#fff', mb: 3, boxShadow: 6, maxWidth: 600, mx: 'auto', mt: 5 }}>
+    <Card sx={{ bgcolor: 'background.paper', color: '#fff', mb: 3, boxShadow: 8, maxWidth: 700, mx: 'auto', mt: 5 }}>
       <CardContent>
-        <Typography variant="h5" gutterBottom>Tagging Panel</Typography>
+        <Typography variant="h4" gutterBottom sx={{ color: 'primary.main', fontWeight: 700 }}>
+          Tagging Panel
+        </Typography>
         <Box component="form" onSubmit={handleAddTag} sx={{ display: 'flex', gap: 2, flexWrap: 'wrap', mb: 2 }}>
-          <TextField label="Item ID" value={tagItemId} onChange={e => setTagItemId(e.target.value)} type="number" size="small" sx={{ flex: 1 }} required />
-          <TextField label="Language" select value={tagLanguage} onChange={e => setTagLanguage(e.target.value)} size="small" sx={{ flex: 1 }} required>
+          <TextField label="Item ID" value={tagItemId} onChange={e => setTagItemId(e.target.value)} type="number" size="small" sx={{ flex: 1, bgcolor: '#222', borderRadius: 1 }} required />
+          <TextField label="Language" select value={tagLanguage} onChange={e => setTagLanguage(e.target.value)} size="small" sx={{ flex: 1, bgcolor: '#222', borderRadius: 1 }} required>
             {languageOptions.map(opt => (
               <MenuItem key={opt.code} value={opt.code}>{opt.name}</MenuItem>
             ))}
           </TextField>
-          <TextField label="Value" value={tagValue} onChange={e => setTagValue(e.target.value)} size="small" sx={{ flex: 2 }} required />
-          <Button type="submit" variant="contained" color="primary">Add Tag</Button>
+          <TextField label="Value" value={tagValue} onChange={e => setTagValue(e.target.value)} size="small" sx={{ flex: 2, bgcolor: '#222', borderRadius: 1 }} required />
+          <Button type="submit" variant="contained" color="primary" startIcon={<AddCircleOutlineIcon />}>Add Tag</Button>
         </Box>
         <Button onClick={() => fetchTags(tagItemId)} disabled={!tagItemId} variant="outlined" color="secondary" sx={{ mb: 2 }}>Show Tags for Item</Button>
-        <Box sx={{ maxHeight: 200, overflow: 'auto' }}>
-          <table style={{ width: '100%', borderCollapse: 'collapse', background: 'rgba(30,40,50,0.7)' }}>
+        <Box sx={{ maxHeight: 250, overflow: 'auto', borderRadius: 2, background: 'rgba(30,40,50,0.8)', boxShadow: '0 2px 16px 0 rgba(26,188,156,0.10)' }}>
+          <table style={{ width: '100%', borderCollapse: 'collapse' }}>
             <thead>
               <tr style={{ background: '#222' }}>
                 <th style={{ padding: 8, border: '1px solid #333' }}>ID</th>
@@ -86,7 +90,7 @@ export default function Tags() {
                   <td style={{ padding: 8, border: '1px solid #333' }}>{tag.language}</td>
                   <td style={{ padding: 8, border: '1px solid #333' }}>{tag.value}</td>
                   <td style={{ padding: 8, border: '1px solid #333' }}>
-                    <Button color="error" size="small" onClick={() => handleDeleteTag(tag.id)}>Delete</Button>
+                    <Button color="error" size="small" variant="outlined" onClick={() => handleDeleteTag(tag.id)} sx={{ borderRadius: 2 }}>Delete</Button>
                   </td>
                 </tr>
               ))}

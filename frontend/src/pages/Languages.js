@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { Card, CardContent, Typography, Button, TextField, Box } from '@mui/material';
+import { Card, CardContent, Typography, Button, TextField, Box, MenuItem } from '@mui/material';
 import { DataGrid } from '@mui/x-data-grid';
 import axios from 'axios';
 import { toast } from 'react-toastify';
+import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 
 const API = 'http://127.0.0.1:8000';
 
@@ -43,15 +44,17 @@ export default function Languages() {
   };
 
   return (
-    <Card sx={{ bgcolor: 'background.paper', color: '#fff', mb: 3, boxShadow: 6, maxWidth: 600, mx: 'auto', mt: 5 }}>
+    <Card sx={{ bgcolor: 'background.paper', color: '#fff', mb: 3, boxShadow: 8, maxWidth: 600, mx: 'auto', mt: 5 }}>
       <CardContent>
-        <Typography variant="h5" gutterBottom>Languages</Typography>
-        <Box component="form" onSubmit={handleAddLanguage} sx={{ display: 'flex', gap: 2, mb: 2 }}>
-          <TextField value={newLangCode} onChange={e => setNewLangCode(e.target.value)} label="Code (e.g. en)" size="small" sx={{ flex: 1 }} required />
-          <TextField value={newLangName} onChange={e => setNewLangName(e.target.value)} label="Name (e.g. English)" size="small" sx={{ flex: 2 }} required />
-          <Button type="submit" variant="contained" color="primary">Add Language</Button>
+        <Typography variant="h4" gutterBottom sx={{ color: 'primary.main', fontWeight: 700 }}>
+          Languages
+        </Typography>
+        <Box component="form" onSubmit={handleAddLanguage} sx={{ display: 'flex', gap: 2, mb: 2, flexWrap: 'wrap' }}>
+          <TextField value={newLangCode} onChange={e => setNewLangCode(e.target.value)} label="Code (e.g. en)" size="small" sx={{ flex: 1, bgcolor: '#222', borderRadius: 1 }} required />
+          <TextField value={newLangName} onChange={e => setNewLangName(e.target.value)} label="Name (e.g. English)" size="small" sx={{ flex: 2, bgcolor: '#222', borderRadius: 1 }} required />
+          <Button type="submit" variant="contained" color="primary" startIcon={<AddCircleOutlineIcon />}>Add Language</Button>
         </Box>
-        <div style={{ height: 300, width: '100%', background: 'rgba(30,40,50,0.7)', borderRadius: 8 }}>
+        <div style={{ height: 300, width: '100%', background: 'rgba(30,40,50,0.8)', borderRadius: 12, boxShadow: '0 2px 16px 0 rgba(26,188,156,0.10)' }}>
           <DataGrid
             rows={languages.map(l => ({ ...l, id: l.id }))}
             columns={[
@@ -63,14 +66,14 @@ export default function Languages() {
                 headerName: 'Actions',
                 width: 120,
                 renderCell: (params) => (
-                  <Button color="error" size="small" onClick={() => handleDeleteLanguage(params.row.id)}>Delete</Button>
+                  <Button color="error" size="small" variant="outlined" onClick={() => handleDeleteLanguage(params.row.id)} sx={{ borderRadius: 2 }}>Delete</Button>
                 ),
               },
             ]}
             pageSize={5}
             rowsPerPageOptions={[5]}
             disableSelectionOnClick
-            sx={{ color: '#fff', border: 0 }}
+            sx={{ color: '#fff', border: 0, fontSize: 16 }}
           />
         </div>
       </CardContent>

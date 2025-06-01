@@ -3,6 +3,8 @@ import { Card, CardContent, Typography, Button, TextField, Box } from '@mui/mate
 import { DataGrid } from '@mui/x-data-grid';
 import axios from 'axios';
 import { toast } from 'react-toastify';
+import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
+import SearchIcon from '@mui/icons-material/Search';
 
 const API = 'http://127.0.0.1:8000';
 
@@ -60,17 +62,19 @@ export default function Items() {
   );
 
   return (
-    <Card sx={{ bgcolor: 'background.paper', color: '#fff', mb: 3, boxShadow: 6, maxWidth: 700, mx: 'auto', mt: 5 }}>
+    <Card sx={{ bgcolor: 'background.paper', color: '#fff', mb: 3, boxShadow: 8, maxWidth: 800, mx: 'auto', mt: 5 }}>
       <CardContent>
-        <Typography variant="h5" gutterBottom>Items Database</Typography>
-        <Box component="form" onSubmit={handleAddItem} sx={{ display: 'flex', gap: 2, mb: 2 }}>
-          <TextField value={newItem} onChange={e => setNewItem(e.target.value)} label="New item name" size="small" sx={{ flex: 2 }} required />
-          <TextField value={newLocalName} onChange={e => setNewLocalName(e.target.value)} label="Local name" size="small" sx={{ flex: 2 }} />
-          <TextField value={newSku} onChange={e => setNewSku(e.target.value)} label="SKU" size="small" sx={{ flex: 1 }} />
-          <Button type="submit" variant="contained" color="primary">Add Item</Button>
+        <Typography variant="h4" gutterBottom sx={{ color: 'primary.main', fontWeight: 700 }}>
+          Items Database
+        </Typography>
+        <Box component="form" onSubmit={handleAddItem} sx={{ display: 'flex', gap: 2, mb: 2, flexWrap: 'wrap' }}>
+          <TextField value={newItem} onChange={e => setNewItem(e.target.value)} label="New item name" size="small" sx={{ flex: 2, bgcolor: '#222', borderRadius: 1 }} required />
+          <TextField value={newLocalName} onChange={e => setNewLocalName(e.target.value)} label="Local name" size="small" sx={{ flex: 2, bgcolor: '#222', borderRadius: 1 }} />
+          <TextField value={newSku} onChange={e => setNewSku(e.target.value)} label="SKU" size="small" sx={{ flex: 1, bgcolor: '#222', borderRadius: 1 }} />
+          <Button type="submit" variant="contained" color="primary" startIcon={<AddCircleOutlineIcon />}>Add Item</Button>
         </Box>
-        <TextField value={search} onChange={e => setSearch(e.target.value)} label="Search items" size="small" sx={{ mb: 2, width: '100%' }} />
-        <div style={{ height: 350, width: '100%', background: 'rgba(30,40,50,0.7)', borderRadius: 8 }}>
+        <TextField value={search} onChange={e => setSearch(e.target.value)} label="Search items" size="small" sx={{ mb: 2, width: '100%', bgcolor: '#222', borderRadius: 1 }} InputProps={{ startAdornment: <SearchIcon sx={{ mr: 1, color: 'primary.main' }} /> }} />
+        <div style={{ height: 400, width: '100%', background: 'rgba(30,40,50,0.8)', borderRadius: 12, boxShadow: '0 2px 16px 0 rgba(26,188,156,0.10)' }}>
           <DataGrid
             rows={filteredItems.map(i => ({ ...i, id: i.id }))}
             columns={[
@@ -83,9 +87,7 @@ export default function Items() {
                 headerName: 'Actions',
                 width: 150,
                 renderCell: (params) => (
-                  <>
-                    <Button color="error" size="small" onClick={() => handleDeleteItem(params.row.id)}>Delete</Button>
-                  </>
+                  <Button color="error" size="small" variant="outlined" onClick={() => handleDeleteItem(params.row.id)} sx={{ borderRadius: 2 }}>Delete</Button>
                 ),
               },
             ]}
@@ -101,7 +103,7 @@ export default function Items() {
               return newRow;
             }}
             experimentalFeatures={{ newEditingApi: true }}
-            sx={{ color: '#fff', border: 0 }}
+            sx={{ color: '#fff', border: 0, fontSize: 16 }}
           />
         </div>
       </CardContent>
