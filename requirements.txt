@@ -1,4 +1,9 @@
-# ...existing requirements...
+fastapi
+uvicorn
+tensorflow
 python-multipart
 psycopg2-binary
-# ...existing requirements...
+sqlalchemy
+pydantic
+python-dotenv
+Pillow
