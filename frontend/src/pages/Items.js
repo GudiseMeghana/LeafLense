@@ -9,6 +9,8 @@ const API = 'http://127.0.0.1:8000';
 export default function Items() {
   const [items, setItems] = useState([]);
   const [newItem, setNewItem] = useState('');
+  const [newLocalName, setNewLocalName] = useState('');
+  const [newSku, setNewSku] = useState('');
   const [search, setSearch] = useState('');
 
   const fetchItems = async () => {
@@ -22,12 +24,34 @@ export default function Items() {
     e.preventDefault();
     if (!newItem) return;
     try {
-      await axios.post(`${API}/items`, { name: newItem });
+      await axios.post(`${API}/items`, { name: newItem, local_name: newLocalName, sku: newSku });
       setNewItem('');
+      setNewLocalName('');
+      setNewSku('');
       fetchItems();
       toast.success('Item added!');
     } catch (e) {
       toast.error('Failed to add item');
+    }
+  };
+
+  const handleUpdateItem = async (id, updatedFields) => {
+    try {
+      await axios.put(`${API}/items/${id}`, updatedFields);
+      fetchItems();
+      toast.success('Item updated!');
+    } catch (e) {
+      toast.error('Failed to update item');
+    }
+  };
+
+  const handleDeleteItem = async (id) => {
+    try {
+      await axios.delete(`${API}/items/${id}`);
+      fetchItems();
+      toast.success('Item deleted!');
+    } catch (e) {
+      toast.error('Failed to delete item');
     }
   };
 
@@ -41,6 +65,8 @@ export default function Items() {
         <Typography variant="h5" gutterBottom>Items Database</Typography>
         <Box component="form" onSubmit={handleAddItem} sx={{ display: 'flex', gap: 2, mb: 2 }}>
           <TextField value={newItem} onChange={e => setNewItem(e.target.value)} label="New item name" size="small" sx={{ flex: 2 }} required />
+          <TextField value={newLocalName} onChange={e => setNewLocalName(e.target.value)} label="Local name" size="small" sx={{ flex: 2 }} />
+          <TextField value={newSku} onChange={e => setNewSku(e.target.value)} label="SKU" size="small" sx={{ flex: 1 }} />
           <Button type="submit" variant="contained" color="primary">Add Item</Button>
         </Box>
         <TextField value={search} onChange={e => setSearch(e.target.value)} label="Search items" size="small" sx={{ mb: 2, width: '100%' }} />
@@ -49,13 +75,32 @@ export default function Items() {
             rows={filteredItems.map(i => ({ ...i, id: i.id }))}
             columns={[
               { field: 'id', headerName: 'ID', width: 80 },
-              { field: 'name', headerName: 'Name', width: 200 },
-              { field: 'local_name', headerName: 'Local Name', width: 180 },
-              { field: 'sku', headerName: 'SKU', width: 120 },
+              { field: 'name', headerName: 'Name', width: 200, editable: true },
+              { field: 'local_name', headerName: 'Local Name', width: 180, editable: true },
+              { field: 'sku', headerName: 'SKU', width: 120, editable: true },
+              {
+                field: 'actions',
+                headerName: 'Actions',
+                width: 150,
+                renderCell: (params) => (
+                  <>
+                    <Button color="error" size="small" onClick={() => handleDeleteItem(params.row.id)}>Delete</Button>
+                  </>
+                ),
+              },
             ]}
             pageSize={5}
             rowsPerPageOptions={[5]}
             disableSelectionOnClick
+            processRowUpdate={(newRow, oldRow) => {
+              handleUpdateItem(newRow.id, {
+                name: newRow.name,
+                local_name: newRow.local_name,
+                sku: newRow.sku,
+              });
+              return newRow;
+            }}
+            experimentalFeatures={{ newEditingApi: true }}
             sx={{ color: '#fff', border: 0 }}
           />
         </div>

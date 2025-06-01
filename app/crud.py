@@ -52,6 +52,14 @@ def create_tag(db: Session, tag: schemas.TagCreate):
 def get_tags_for_item(db: Session, item_id: int):
     return db.query(model.Tag).filter(model.Tag.item_id == item_id).all()
 
+def delete_tag(db: Session, tag_id: int):
+    db_tag = db.query(model.Tag).filter(model.Tag.id == tag_id).first()
+    if not db_tag:
+        return False
+    db.delete(db_tag)
+    db.commit()
+    return True
+
 # -------------------------------
 # Language CRUD
 # -------------------------------

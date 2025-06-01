@@ -15,3 +15,10 @@ def create_tag(tag: schemas.TagCreate, db: Session = Depends(get_db)):
 @router.get("/items/{item_id}/tags", response_model=list[schemas.TagOut])
 def get_tags_for_item(item_id: int, db: Session = Depends(get_db)):
     return crud.get_tags_for_item(db, item_id)
+
+@router.delete("/tags/{tag_id}")
+def delete_tag(tag_id: int, db: Session = Depends(get_db)):
+    success = crud.delete_tag(db, tag_id)
+    if not success:
+        raise HTTPException(status_code=404, detail="Tag not found")
+    return {"ok": True}

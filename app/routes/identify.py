@@ -3,14 +3,13 @@ from fastapi.responses import JSONResponse
 from PIL import Image
 import numpy as np
 import io
+import tensorflow as tf
 
 router = APIRouter()
 
 
 # Load your trained Keras model
-from tensorflow.keras.models import load_model
-model = load_model("/Users/meghanagudise/Leaf-Lense/model/vegetable_mobilenetv2_finetuned.h5")
-
+model = tf.keras.models.load_model("/Users/meghanagudise/Leaf-Lense/model/vegetable_mobilenetv2_finetuned.h5")
 
 # Class labels (must match your trained model’s output)
 class_names = [
