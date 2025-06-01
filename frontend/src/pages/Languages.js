@@ -32,6 +32,16 @@ export default function Languages() {
     }
   };
 
+  const handleDeleteLanguage = async (langId) => {
+    try {
+      await axios.delete(`${API}/languages/${langId}`);
+      fetchLanguages();
+      toast.success('Language deleted!');
+    } catch (e) {
+      toast.error('Failed to delete language');
+    }
+  };
+
   return (
     <Card sx={{ bgcolor: 'background.paper', color: '#fff', mb: 3, boxShadow: 6, maxWidth: 600, mx: 'auto', mt: 5 }}>
       <CardContent>
@@ -48,6 +58,14 @@ export default function Languages() {
               { field: 'id', headerName: 'ID', width: 80 },
               { field: 'code', headerName: 'Code', width: 120 },
               { field: 'name', headerName: 'Name', width: 200 },
+              {
+                field: 'actions',
+                headerName: 'Actions',
+                width: 120,
+                renderCell: (params) => (
+                  <Button color="error" size="small" onClick={() => handleDeleteLanguage(params.row.id)}>Delete</Button>
+                ),
+              },
             ]}
             pageSize={5}
             rowsPerPageOptions={[5]}

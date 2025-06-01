@@ -34,6 +34,16 @@ export default function Barcodes() {
     setBarcodes(res.data);
   };
 
+  const handleDeleteBarcode = async (barcodeId) => {
+    try {
+      await axios.delete(`${API}/barcodes/${barcodeId}`);
+      if (barcodeItemId) fetchBarcodes(barcodeItemId);
+      toast.success('Barcode deleted!');
+    } catch (e) {
+      toast.error('Failed to delete barcode');
+    }
+  };
+
   return (
     <Card sx={{ bgcolor: 'background.paper', color: '#fff', mb: 3, boxShadow: 6, maxWidth: 600, mx: 'auto', mt: 5 }}>
       <CardContent>
@@ -50,6 +60,14 @@ export default function Barcodes() {
             columns={[
               { field: 'id', headerName: 'ID', width: 80 },
               { field: 'code', headerName: 'Barcode', width: 200 },
+              {
+                field: 'action',
+                headerName: 'Action',
+                width: 120,
+                renderCell: (params) => (
+                  <Button color="error" size="small" onClick={() => handleDeleteBarcode(params.row.id)}>Delete</Button>
+                ),
+              },
             ]}
             pageSize={5}
             rowsPerPageOptions={[5]}

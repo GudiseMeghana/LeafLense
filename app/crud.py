@@ -73,6 +73,14 @@ def create_language(db: Session, language: schemas.LanguageCreate):
 def get_languages(db: Session):
     return db.query(model.Language).all()
 
+def delete_language(db: Session, language_id: int):
+    db_language = db.query(model.Language).filter(model.Language.id == language_id).first()
+    if not db_language:
+        return False
+    db.delete(db_language)
+    db.commit()
+    return True
+
 # -------------------------------
 # Barcode CRUD
 # -------------------------------
@@ -85,3 +93,11 @@ def create_barcode(db: Session, barcode: schemas.BarcodeCreate):
 
 def get_barcodes_for_item(db: Session, item_id: int):
     return db.query(model.Barcode).filter(model.Barcode.item_id == item_id).all()
+
+def delete_barcode(db: Session, barcode_id: int):
+    db_barcode = db.query(model.Barcode).filter(model.Barcode.id == barcode_id).first()
+    if not db_barcode:
+        return False
+    db.delete(db_barcode)
+    db.commit()
+    return True
