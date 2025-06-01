@@ -44,6 +44,16 @@ export default function Tags() {
     setTags(res.data);
   };
 
+  const handleDeleteTag = async (tagId) => {
+    try {
+      await axios.delete(`${API}/tags/${tagId}`);
+      fetchTags(tagItemId);
+      toast.success('Tag deleted!');
+    } catch (e) {
+      toast.error('Failed to delete tag');
+    }
+  };
+
   return (
     <Card sx={{ bgcolor: 'background.paper', color: '#fff', mb: 3, boxShadow: 6, maxWidth: 600, mx: 'auto', mt: 5 }}>
       <CardContent>
@@ -66,6 +76,7 @@ export default function Tags() {
                 <th style={{ padding: 8, border: '1px solid #333' }}>ID</th>
                 <th style={{ padding: 8, border: '1px solid #333' }}>Language</th>
                 <th style={{ padding: 8, border: '1px solid #333' }}>Value</th>
+                <th style={{ padding: 8, border: '1px solid #333' }}>Actions</th>
               </tr>
             </thead>
             <tbody>
@@ -74,6 +85,9 @@ export default function Tags() {
                   <td style={{ padding: 8, border: '1px solid #333' }}>{tag.id}</td>
                   <td style={{ padding: 8, border: '1px solid #333' }}>{tag.language}</td>
                   <td style={{ padding: 8, border: '1px solid #333' }}>{tag.value}</td>
+                  <td style={{ padding: 8, border: '1px solid #333' }}>
+                    <Button color="error" size="small" onClick={() => handleDeleteTag(tag.id)}>Delete</Button>
+                  </td>
                 </tr>
               ))}
             </tbody>
