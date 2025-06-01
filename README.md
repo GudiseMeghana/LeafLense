@@ -60,6 +60,61 @@ docker run -p 3000:80 leaf-lense-frontend
 
 ---
 
+## 🚀 Deployment
+
+### One-command local deployment (Docker Compose)
+
+```zsh
+docker-compose up --build
+```
+- Backend: [http://localhost:8000/docs](http://localhost:8000/docs)
+- Frontend: [http://localhost:3000](http://localhost:3000)
+
+### Cloud deployment (Render, Railway, AWS EC2)
+- Push your repo to GitHub.
+- On Render/Railway: create a new web service, connect your repo, set build/start commands as in Dockerfile, and add environment variables from `.env.example`.
+- On AWS EC2: install Docker, clone your repo, and run `docker-compose up --build`.
+
+---
+
+## 📖 API Documentation
+- Interactive docs: [http://localhost:8000/docs](http://localhost:8000/docs)
+- OpenAPI spec: [http://localhost:8000/openapi.json](http://localhost:8000/openapi.json)
+
+---
+
+## 🧪 Sample API Usage
+
+### curl
+```sh
+curl -X POST "http://localhost:8000/identify" -F "file=@/path/to/image.jpg"
+curl -X POST "http://localhost:8000/barcodes" -H "Content-Type: application/json" -d '{"code":"1234567890123","item_id":1}'
+```
+
+### Python
+```python
+import requests
+with open("image.jpg", "rb") as f:
+    res = requests.post("http://localhost:8000/identify", files={"file": f})
+print(res.json())
+```
+
+### JavaScript (fetch)
+```js
+const formData = new FormData();
+formData.append('file', fileInput.files[0]);
+fetch('http://localhost:8000/identify', { method: 'POST', body: formData })
+  .then(res => res.json())
+  .then(data => console.log(data));
+```
+
+---
+
+## 🏷️ Simulate Barcode Scanner
+- Use `/barcodes` endpoint with curl, Postman, or your POS app to POST a barcode.
+
+---
+
 ## Environment Variables
 See `.env.example` for required variables for PostgreSQL connection.
 
