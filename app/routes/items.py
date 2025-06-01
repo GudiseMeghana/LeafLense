@@ -22,3 +22,17 @@ def create_tag(tag: schemas.TagCreate, db: Session = Depends(get_db)):
     if not item:
         raise HTTPException(status_code=404, detail="Item not found")
     return crud.create_tag(db, tag)
+
+@router.put("/items/{item_id}", response_model=schemas.ItemOut)
+def update_item(item_id: int, item: schemas.ItemCreate, db: Session = Depends(get_db)):
+    db_item = crud.update_item(db, item_id, item)
+    if not db_item:
+        raise HTTPException(status_code=404, detail="Item not found")
+    return db_item
+
+@router.delete("/items/{item_id}")
+def delete_item(item_id: int, db: Session = Depends(get_db)):
+    success = crud.delete_item(db, item_id)
+    if not success:
+        raise HTTPException(status_code=404, detail="Item not found")
+    return {"ok": True}

@@ -20,6 +20,25 @@ def create_item(db: Session, item: schemas.ItemCreate):
     db.refresh(db_item)
     return db_item
 
+def update_item(db: Session, item_id: int, item: schemas.ItemCreate):
+    db_item = db.query(model.Item).filter(model.Item.id == item_id).first()
+    if not db_item:
+        return None
+    db_item.name = item.name
+    db_item.local_name = item.local_name
+    db_item.sku = item.sku
+    db.commit()
+    db.refresh(db_item)
+    return db_item
+
+def delete_item(db: Session, item_id: int):
+    db_item = db.query(model.Item).filter(model.Item.id == item_id).first()
+    if not db_item:
+        return False
+    db.delete(db_item)
+    db.commit()
+    return True
+
 # -------------------------------
 # Tag CRUD
 # -------------------------------
