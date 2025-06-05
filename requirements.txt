@@ -1,0 +1,15 @@
+fastapi
+uvicorn
+tensorflow
+python-multipart
+psycopg2-binary
+sqlalchemy
+pydantic
+python-dotenv
+Pillow
+
+#
+# Development & Testing (optional, for contributors)
+fastapi[all]  # For API testing and docs
+pytest        # For automated API tests
+httpx         # For async test client (if needed)

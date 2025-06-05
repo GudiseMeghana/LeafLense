@@ -1,0 +1,21 @@
+# Node modules
+node_modules/
+frontend/node_modules/
+
+# Python cache
+__pycache__/
+app/__pycache__/
+app/routes/__pycache__/
+
+# VSCode
+.vscode/
+
+# OS files
+.DS_Store
+
+# Model files
+model/*.h5
+model/*.pt
+
+# Build output
+frontend/build/
