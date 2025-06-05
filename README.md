@@ -203,3 +203,10 @@ See [`project explanation.md`](project%20explanation.md) for a non-technical ove
 
 ## 📄 License
 MIT License
+
+# LeafLense
+
+## Deployed Links
+
+- **Backend API Docs:** [https://leaflense.onrender.com/docs](https://leaflense.onrender.com/docs)
+- **Frontend App:** [https://leaf-lense.vercel.app](https://leaf-lense.vercel.app)
